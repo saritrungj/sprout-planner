@@ -107,19 +107,22 @@ export default function DayEditor({ date, state, setState, onClose }: Props) {
           : "";
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 bg-ink/40 backdrop-blur-sm"
-      onClick={onClose}
-      aria-hidden="true"
-    >
+    <>
+      <div
+        className="fixed inset-0 z-50 bg-ink/40 backdrop-blur-sm"
+        onClick={onClose}
+        aria-hidden="true"
+      />
+      <div
+        className="fixed inset-0 z-50 flex items-end sm:items-center justify-center p-4 pointer-events-none"
+      >
       <div
         ref={dialogRef}
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="w-full max-w-md bg-surface dark:bg-surface-dark-muted rounded-3xl shadow-2xl p-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto"
+        className="pointer-events-auto w-full max-w-md bg-surface dark:bg-surface-dark-muted rounded-3xl shadow-2xl p-6 flex flex-col gap-4 max-h-[80vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
-        aria-hidden="false"
       >
         {/* Header */}
         <div className="flex items-center justify-between gap-3">
@@ -230,6 +233,7 @@ export default function DayEditor({ date, state, setState, onClose }: Props) {
           </button>
         </form>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

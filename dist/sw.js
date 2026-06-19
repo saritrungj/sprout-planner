@@ -1,6 +1,6 @@
 // Sprout Planner service worker — app-shell offline cache.
 // Bumped CACHE version invalidates old caches on activate.
-const CACHE = "sprout-v1";
+const CACHE = "sprout-v2";
 const PRECACHE = [
   "/",
   "/index.html",
@@ -12,6 +12,11 @@ const PRECACHE = [
   "/sprout-fail.png",
   "/sprout-neutral.png",
   "/sprout-streak.png",
+  "/sprout-streak-1.png",
+  "/sprout-streak-3.png",
+  "/sprout-streak-7.png",
+  "/sprout-streak-15.png",
+  "/sprout-streak-21.png",
   "/favicon-64.png",
   "/icon-192.png",
   "/icon-512.png",

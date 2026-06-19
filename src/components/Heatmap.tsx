@@ -6,10 +6,10 @@ type Props = { cells: HeatmapCell[] };
 
 function cellColor(cell: HeatmapCell): string {
   const today = todayISO();
-  if (cell.date > today) return "bg-gray-100 dark:bg-gray-800";
-  if (cell.status === "neutral") return "bg-gray-100 dark:bg-gray-800";
+  if (cell.date > today) return "bg-surface-muted dark:bg-surface-dark-muted";
+  if (cell.status === "neutral") return "bg-surface-muted dark:bg-surface-dark-muted";
   if (cell.status === "missed") return "bg-red-200 dark:bg-red-900";
-  if (cell.ratio === 0) return "bg-gray-100 dark:bg-gray-800";
+  if (cell.ratio === 0) return "bg-surface-muted dark:bg-surface-dark-muted";
   if (cell.ratio < 0.34) return "bg-sprout-200 dark:bg-sprout-900";
   if (cell.ratio < 0.67) return "bg-sprout-400 dark:bg-sprout-700";
   if (cell.ratio < 1) return "bg-sprout-500 dark:bg-sprout-600";
@@ -98,7 +98,7 @@ export default function Heatmap({ cells }: Props) {
       >
         <span>{t("dash.less")}</span>
         {[
-          "bg-gray-100 dark:bg-gray-800",
+          "bg-surface-muted dark:bg-surface-dark-muted",
           "bg-sprout-200 dark:bg-sprout-900",
           "bg-sprout-400 dark:bg-sprout-700",
           "bg-sprout-600 dark:bg-sprout-500",

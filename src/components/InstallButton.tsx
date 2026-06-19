@@ -60,7 +60,7 @@ export default function InstallButton() {
               <button
                 onClick={() => setShowIOS(false)}
                 aria-label={t("common.close")}
-                className="flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full text-ink-subtle hover:text-ink dark:hover:text-surface"
+                className="flex min-h-[44px] min-w-[44px] flex-shrink-0 items-center justify-center rounded-full text-ink-subtle hover:text-ink dark:hover:text-surface"
               >
                 <X size={18} aria-hidden="true" />
               </button>

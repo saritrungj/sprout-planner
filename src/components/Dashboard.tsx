@@ -23,6 +23,7 @@ type Props = { state: AppState };
 
 export default function Dashboard({ state }: Props) {
   const { t, locale } = useT();
+  const zen = state.settings.zenMode;
   const exportRef = useRef<HTMLDivElement>(null);
   const month = currentMonth();
   const streak = getStreak(state);
@@ -57,19 +58,19 @@ export default function Dashboard({ state }: Props) {
     t("common.end");
 
   return (
-    <div className="flex flex-col gap-4 p-4 max-w-xl mx-auto w-full">
+    <div className="mx-auto flex min-h-full w-full max-w-6xl flex-col gap-5 px-4 py-5 lg:px-8 lg:py-8">
       {/* Export buttons */}
-      <div className="flex gap-2 justify-end" data-export-hide>
+      <div className="flex flex-wrap justify-end gap-2" data-export-hide>
         <button
           onClick={() => handleExport("9:16")}
-          className="flex items-center gap-2 px-3 py-2 bg-sprout-600 hover:bg-sprout-700 text-white text-xs rounded-xl transition-colors font-medium"
+          className="flex min-h-[44px] items-center gap-2 rounded-xl bg-sprout-600 px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-sprout-700"
         >
           <Download size={14} aria-hidden="true" />{" "}
           {t("dash.export", { ratio: "9:16" })}
         </button>
         <button
           onClick={() => handleExport("16:9")}
-          className="flex items-center gap-2 px-3 py-2 bg-sprout-600 hover:bg-sprout-700 text-white text-xs rounded-xl transition-colors font-medium"
+          className="flex min-h-[44px] items-center gap-2 rounded-xl bg-sprout-600 px-3 py-2 text-xs font-medium text-white transition-colors hover:bg-sprout-700"
         >
           <Download size={14} aria-hidden="true" />{" "}
           {t("dash.export", { ratio: "16:9" })}
@@ -77,31 +78,32 @@ export default function Dashboard({ state }: Props) {
       </div>
 
       {/* Exportable content */}
-      <div ref={exportRef} className="flex flex-col gap-5">
+      <div
+        ref={exportRef}
+        className="grid flex-1 content-start gap-5 lg:grid-cols-[minmax(0,1.15fr)_minmax(20rem,0.85fr)] lg:items-start"
+      >
         {/* Growth headline */}
-        <div className="px-1">
+        <div className="px-1 lg:col-span-2">
           <p className="text-xs text-ink-subtle dark:text-surface-muted uppercase tracking-wide font-medium mb-1">
             {t("dash.growth")}
           </p>
           <p className="text-2xl font-bold font-sans text-ink dark:text-surface leading-snug">
-            {headline}
+            {zen ? t("dash.thisMonth") : headline}
           </p>
         </div>
 
         {/* Streak with 3D flame */}
-        <StreakCard streak={streak} todayPending={todayPending} />
-
         {/* Heatmap — hero artifact */}
-        <Heatmap cells={heatmap} />
-
         {/* Typographic stat row — no boxes */}
-        <div className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 px-1 border-t border-sprout-100 dark:border-sprout-950 pt-4">
-          <StatItem
-            label={t("dash.completion")}
-            value={stats.completionPct}
-            suffix="%"
-            sub={t("dash.thisMonth")}
-          />
+        <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-sprout-100 px-1 pt-4 dark:border-sprout-950 sm:grid-cols-4 lg:col-span-2">
+          {!zen && (
+            <StatItem
+              label={t("dash.completion")}
+              value={stats.completionPct}
+              suffix="%"
+              sub={t("dash.thisMonth")}
+            />
+          )}
           <StatItem
             label={t("dash.greenDays")}
             value={stats.greenDays}
@@ -112,16 +114,24 @@ export default function Dashboard({ state }: Props) {
             label={t("dash.tasksDone")}
             value={stats.tasksCompleted}
             sub={t("dash.thisMonth")}
-            accent="text-blue-500 dark:text-blue-400"
+            accent="text-ink-muted dark:text-surface-muted"
           />
-          <StatItem
-            label={t("dash.bestStreak")}
-            value={streak.best}
-            suffix={t("unit.dayShort")}
-            sub={t("dash.allTime")}
-            accent="text-orange-500 dark:text-orange-400"
-          />
+          {!zen && (
+            <StatItem
+              label={t("dash.bestStreak")}
+              value={streak.best}
+              suffix={t("unit.dayShort")}
+              sub={t("dash.allTime")}
+              accent="text-orange-500 dark:text-orange-400"
+            />
+          )}
         </div>
+
+        <div className="lg:col-span-2">
+          <Heatmap cells={heatmap} />
+        </div>
+
+        {!zen && <StreakCard streak={streak} todayPending={todayPending} />}
 
         {/* Mini month calendar */}
         <MiniMonthSummary state={state} month={month} />
@@ -206,6 +216,7 @@ function MiniMonthSummary({
           return (
             <div
               key={i}
+              role="img"
               aria-label={date}
               className={`aspect-square rounded flex items-center justify-center text-[10px] font-medium transition-colors
                 ${

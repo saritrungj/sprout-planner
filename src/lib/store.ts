@@ -1,8 +1,24 @@
+/** Optional time-of-day grouping for a task. */
+export type Slot = "morning" | "afternoon" | "evening";
+
 export type Task = {
   id: string;
   title: string;
   createdAt: string;
+  slot?: Slot;
 };
+
+/** Mascot avatar poses the user can pick (maps to /sprout-<key>.png). */
+export type MascotKey =
+  | "neutral"
+  | "success"
+  | "streak"
+  | "rest"
+  | "progress"
+  | "empty"
+  | "work";
+
+export type Reminders = { enabled: boolean; time: string };
 
 export type MonthPlan = {
   month: string; // "2026-06"
@@ -17,18 +33,32 @@ export type DayLog = {
 
 export type Lang = "en" | "th" | "zh-CN" | "zh-TW";
 
+export type Settings = {
+  theme: "light" | "dark";
+  language: Lang;
+  zenMode: boolean;
+  mascot: MascotKey;
+  reminders: Reminders;
+};
+
 export type AppState = {
   tasks: Record<string, Task>;
   months: Record<string, MonthPlan>;
   days: Record<string, DayLog>;
-  settings: { theme: "light" | "dark"; language: Lang };
+  settings: Settings;
 };
 
 export const defaultState: AppState = {
   tasks: {},
   months: {},
   days: {},
-  settings: { theme: "light", language: "en" },
+  settings: {
+    theme: "light",
+    language: "en",
+    zenMode: false,
+    mascot: "neutral",
+    reminders: { enabled: false, time: "20:00" },
+  },
 };
 
 export function getMonthPlan(state: AppState, month: string): MonthPlan {
@@ -51,14 +81,32 @@ export function nanoid(): string {
 }
 
 // Mutations — return new state (immutable)
-export function addTask(state: AppState, title: string): [AppState, string] {
+export function addTask(
+  state: AppState,
+  title: string,
+  slot?: Slot,
+): [AppState, string] {
   const id = nanoid();
   const task: Task = {
     id,
     title: title.trim(),
     createdAt: new Date().toISOString(),
+    ...(slot ? { slot } : {}),
   };
   return [{ ...state, tasks: { ...state.tasks, [id]: task } }, id];
+}
+
+export function setTaskSlot(
+  state: AppState,
+  id: string,
+  slot: Slot | undefined,
+): AppState {
+  const task = state.tasks[id];
+  if (!task) return state;
+  return {
+    ...state,
+    tasks: { ...state.tasks, [id]: { ...task, slot } },
+  };
 }
 
 export function removeTask(state: AppState, id: string): AppState {
@@ -174,4 +222,16 @@ export function setTheme(state: AppState, theme: "light" | "dark"): AppState {
 
 export function setLanguage(state: AppState, language: Lang): AppState {
   return { ...state, settings: { ...state.settings, language } };
+}
+
+export function setZenMode(state: AppState, zenMode: boolean): AppState {
+  return { ...state, settings: { ...state.settings, zenMode } };
+}
+
+export function setMascot(state: AppState, mascot: MascotKey): AppState {
+  return { ...state, settings: { ...state.settings, mascot } };
+}
+
+export function setReminders(state: AppState, reminders: Reminders): AppState {
+  return { ...state, settings: { ...state.settings, reminders } };
 }

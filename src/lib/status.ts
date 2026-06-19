@@ -33,12 +33,12 @@ export const statusStyles = {
     stamp: "bg-red-100 dark:bg-red-950 text-red-500 dark:text-red-400",
   },
   neutral: {
-    bg: "bg-gray-200 dark:bg-gray-700",
+    bg: "bg-surface-muted dark:bg-surface-dark-muted",
     bgLight: "bg-transparent",
-    border: "border-gray-100 dark:border-gray-800",
+    border: "border-sprout-100 dark:border-sprout-900",
     ring: "",
     text: "text-ink-muted dark:text-surface-muted",
-    badge: "bg-gray-100 dark:bg-gray-800 text-ink-muted",
+    badge: "bg-surface-muted dark:bg-surface-dark-muted text-ink-muted",
     stamp: "",
   },
 } satisfies Record<DayStatus, Record<string, string>>;
@@ -156,6 +156,13 @@ export function getMonthStats(state: AppState, month: string): MonthStats {
     totalDays: counted,
     tasksCompleted,
   };
+}
+
+/** Count of days the user logged at least one completed task. */
+export function getDaysTended(state: AppState): number {
+  return Object.values(state.days).filter((log) =>
+    Object.values(log.done).some(Boolean),
+  ).length;
 }
 
 export type HeatmapCell = { date: string; ratio: number; status: DayStatus };

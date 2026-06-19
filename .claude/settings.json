@@ -38,8 +38,6 @@
       "Bash(node -e \"JSON.parse\\(require\\('fs'\\).readFileSync\\('DESIGN.json','utf8'\\)\\); console.log\\('DESIGN.json valid'\\)\")",
       "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('hasDesign:',j.hasDesign,'| designPath:',j.designPath\\)}\\)\")"
     ],
-    "additionalDirectories": [
-      "D:\\github-clone\\sprout-planner"
-    ]
+    "additionalDirectories": ["D:\\github-clone\\sprout-planner"]
   }
 }

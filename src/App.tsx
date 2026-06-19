@@ -1,15 +1,23 @@
 import { useState } from "react";
 import { useAppState } from "./lib/storage";
 import { setTheme, setLanguage, Lang } from "./lib/store";
-import { I18nProvider } from "./lib/i18n";
-import { Tab } from "./components/TabBar";
-import TabBar from "./components/TabBar";
+import { I18nProvider, useT } from "./lib/i18n";
+import { Tab, SideNav, MobileTopBar, BottomNav } from "./components/Navigation";
 import TodayView from "./components/TodayView";
 import CalendarView from "./components/CalendarView";
 import Dashboard from "./components/Dashboard";
-import ThemeToggle from "./components/ThemeToggle";
-import LanguageSelect from "./components/LanguageSelect";
+import SettingsView from "./components/SettingsView";
+import RemindersRunner from "./components/RemindersRunner";
 import Splash from "./components/Splash";
+
+function SkipToContent() {
+  const { t } = useT();
+  return (
+    <a href="#main-content" className="sr-only">
+      {t("a11y.skipToContent")}
+    </a>
+  );
+}
 
 export default function App() {
   const [state, setState] = useAppState();
@@ -29,48 +37,47 @@ export default function App() {
   return (
     <I18nProvider lang={state.settings.language}>
       {booting && <Splash onDone={() => setBooting(false)} />}
+      <RemindersRunner reminders={state.settings.reminders} />
 
-      <div className="flex min-h-dvh w-full flex-col bg-surface dark:bg-surface-dark">
-        {/* Sticky translucent top bar — lets the full-bleed hero show through */}
-        <div className="sticky top-0 z-40 border-b border-sprout-100/70 bg-surface/85 backdrop-blur-md dark:border-sprout-900/70 dark:bg-surface-dark/85">
-          <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-4 py-3">
-            <div className="flex items-center gap-2">
-              <img
-                src="/sprout-logo.png"
-                alt=""
-                aria-hidden="true"
-                className="h-9 w-9 object-contain"
-              />
-              <span className="font-sans text-lg font-bold text-sprout-700 dark:text-sprout-400">
-                Sprout
-              </span>
-            </div>
-            <div className="flex items-center gap-1">
-              <LanguageSelect
-                value={state.settings.language}
-                onChange={changeLanguage}
-              />
-              <ThemeToggle
-                theme={state.settings.theme}
-                onToggle={toggleTheme}
-              />
-            </div>
-          </header>
+      <SkipToContent />
 
-          {/* Tab nav */}
-          <TabBar active={tab} onChange={setTab} />
+      <div className="flex h-dvh w-full overflow-hidden bg-surface dark:bg-surface-dark">
+        <SideNav
+          active={tab}
+          onChange={setTab}
+          state={state}
+          onToggleTheme={toggleTheme}
+          onChangeLanguage={changeLanguage}
+        />
+
+        <div className="flex h-dvh min-w-0 flex-1 flex-col lg:pl-72">
+          <MobileTopBar
+            state={state}
+            onToggleTheme={toggleTheme}
+            onChangeLanguage={changeLanguage}
+          />
+
+          {/* Content — keyed so each view fades/rises in on switch */}
+          <main
+            id="main-content"
+            className="min-h-0 flex-1 overflow-y-auto scroll-smooth pb-28 lg:pb-0"
+          >
+            <div key={tab} className="view-enter min-h-full">
+              {tab === "today" && (
+                <TodayView state={state} setState={setState} />
+              )}
+              {tab === "calendar" && (
+                <CalendarView state={state} setState={setState} />
+              )}
+              {tab === "dashboard" && <Dashboard state={state} />}
+              {tab === "settings" && (
+                <SettingsView state={state} setState={setState} />
+              )}
+            </div>
+          </main>
         </div>
 
-        {/* Content — keyed so each view fades/rises in on switch */}
-        <main className="flex-1">
-          <div key={tab} className="view-enter">
-            {tab === "today" && <TodayView state={state} setState={setState} />}
-            {tab === "calendar" && (
-              <CalendarView state={state} setState={setState} />
-            )}
-            {tab === "dashboard" && <Dashboard state={state} />}
-          </div>
-        </main>
+        <BottomNav active={tab} onChange={setTab} />
       </div>
     </I18nProvider>
   );

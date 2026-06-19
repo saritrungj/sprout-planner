@@ -9,7 +9,14 @@ type Props = {
   todayPending?: boolean;
 };
 
-const MILESTONES = [7, 30, 100, 365];
+const MILESTONES = [1, 3, 7, 15, 21, 30, 100, 365];
+const STREAK_ART = [
+  { min: 21, src: "/sprout-streak-21.png" },
+  { min: 15, src: "/sprout-streak-15.png" },
+  { min: 7, src: "/sprout-streak-7.png" },
+  { min: 3, src: "/sprout-streak-3.png" },
+  { min: 1, src: "/sprout-streak-1.png" },
+];
 
 function nextMilestone(current: number): number | null {
   return MILESTONES.find((m) => m > current) ?? null;
@@ -17,6 +24,10 @@ function nextMilestone(current: number): number | null {
 
 function milestoneReached(current: number): number | null {
   return MILESTONES.includes(current) ? current : null;
+}
+
+function streakArt(current: number): string {
+  return STREAK_ART.find((art) => current >= art.min)?.src ?? STREAK_ART[4].src;
 }
 
 export default function StreakCard({ streak, todayPending }: Props) {
@@ -27,6 +38,7 @@ export default function StreakCard({ streak, todayPending }: Props) {
   const intensity = Math.min(streak.current / 30, 1);
   const reached = milestoneReached(streak.current);
   const next = nextMilestone(streak.current);
+  const artSrc = streakArt(streak.current);
 
   return (
     <div
@@ -44,10 +56,11 @@ export default function StreakCard({ streak, todayPending }: Props) {
           }`}
         >
           <img
-            src="/sprout-streak.png"
+            src={artSrc}
             alt=""
             aria-hidden="true"
             className="w-full h-full object-contain"
+            decoding="async"
           />
         </div>
 
@@ -92,7 +105,7 @@ export default function StreakCard({ streak, todayPending }: Props) {
       {/* Progress to next milestone */}
       {!reached && next && streak.current > 0 && (
         <div className="flex items-center gap-2 text-xs text-ink-subtle dark:text-surface-muted">
-          <div className="flex-1 h-1.5 rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+          <div className="flex-1 h-1.5 rounded-full bg-surface-muted dark:bg-surface-dark-muted overflow-hidden">
             <div
               className="h-full rounded-full bg-sprout-500 transition-all duration-700"
               style={{ width: `${(streak.current / next) * 100}%` }}

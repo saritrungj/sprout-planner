@@ -58,7 +58,14 @@
   }
 
   body {
-    @apply bg-surface dark:bg-surface-dark text-ink dark:text-surface min-h-screen;
+    @apply bg-surface dark:bg-surface-dark text-ink dark:text-surface;
+    overflow: hidden;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
   }
 
   button,
@@ -92,12 +99,17 @@
     cursor: pointer;
   }
 
-  button:not(:disabled):hover {
+  /* Lift only on primary/icon actions — not toggles, nav, or task rows */
+  button:not(:disabled):not([role="switch"]):not([aria-pressed]):not(
+      [aria-current="page"]
+    ):not([data-flat]):hover {
     transform: translateY(-1px);
     box-shadow: 0 10px 24px rgba(22, 101, 52, 0.1);
   }
 
-  button:not(:disabled):active {
+  button:not(:disabled):not([role="switch"]):not([aria-pressed]):not(
+      [aria-current="page"]
+    ):not([data-flat]):active {
     transform: translateY(0) scale(0.97);
     transition-duration: 110ms;
   }
@@ -107,8 +119,8 @@
     transition: transform 220ms var(--ease-sprout);
   }
 
-  button:not(:disabled):hover svg,
-  button:not(:disabled):hover img {
+  button:not(:disabled):not([aria-pressed]):not([data-flat]):hover svg,
+  button:not(:disabled):not([aria-pressed]):not([data-flat]):hover img {
     transform: scale(1.06);
   }
 
@@ -189,6 +201,55 @@
       opacity: 1;
       transform: translateY(0);
     }
+  }
+
+  /* Scroll cue — ease-out float, never bounce */
+  .scroll-cue {
+    animation: scroll-cue 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  @keyframes scroll-cue {
+    0%,
+    100% {
+      transform: translateY(0);
+      opacity: 0.7;
+    }
+    50% {
+      transform: translateY(5px);
+      opacity: 1;
+    }
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .sr-only:focus {
+    position: fixed;
+    top: 0.75rem;
+    left: 0.75rem;
+    z-index: 200;
+    width: auto;
+    height: auto;
+    padding: 0.625rem 1rem;
+    margin: 0;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    border-radius: 0.75rem;
+    background-color: #16a34a;
+    color: #f7fdf8;
+    font-size: 0.875rem;
+    font-weight: 600;
+    box-shadow: 0 10px 24px rgba(22, 101, 52, 0.2);
   }
 }
 
