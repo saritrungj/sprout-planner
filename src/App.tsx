@@ -23,7 +23,7 @@ function SkipToContent() {
 
 export default function App() {
   const [state, setState] = useAppState();
-  const [tab, setTab] = useState<Tab>("today");
+  const [tab, setTab] = useState<Tab>(() => tabFromHash() ?? "today");
   const [booting, setBooting] = useState(true);
 
   function toggleTheme() {
@@ -89,4 +89,13 @@ export default function App() {
       </div>
     </I18nProvider>
   );
+}
+
+function tabFromHash(): Tab | null {
+  const hash = window.location.hash.replace("#", "");
+  return ["today", "calendar", "focus", "mood", "dashboard", "settings"].includes(
+    hash,
+  )
+    ? (hash as Tab)
+    : null;
 }

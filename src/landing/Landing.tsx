@@ -15,7 +15,7 @@ const CTA_PRIMARY = `rounded-2xl bg-sprout-600 px-6 py-3 text-sm font-semibold t
 /** Soft secondary CTA with the same lift, quieter surface. */
 const CTA_SOFT = `rounded-2xl bg-surface-muted px-6 py-3 text-sm font-semibold text-sprout-700 ring-1 ring-inset ring-sprout-100 transition-all duration-200 ${EASE} hover:-translate-y-0.5 hover:bg-sprout-50 hover:ring-sprout-200 active:translate-y-0 active:scale-[0.97]`;
 const GITHUB_URL = "https://github.com/saritrungj/sprout-planner";
-const FACEBOOK_URL = "https://www.facebook.com/";
+const FACEBOOK_URL = "https://www.facebook.com/saritrungj27/";
 
 /**
  * Sprout Universe — the public marketing landing page.
@@ -169,7 +169,7 @@ function Hero() {
 
       <div className="relative mx-auto grid w-full max-w-6xl items-center gap-10 px-5 py-12 sm:px-8 sm:py-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-6">
         <div
-          className="animate-rise"
+          className="animate-rise mx-auto flex max-w-2xl flex-col items-center text-center lg:mx-0 lg:items-start lg:text-left"
           style={{ "--i": 0 } as React.CSSProperties}
         >
           <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-sprout-50 px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-sprout-700 ring-1 ring-inset ring-sprout-100">
@@ -187,7 +187,7 @@ function Hero() {
             {t("landing.hero.body")}
           </p>
 
-          <div className="mt-8 flex flex-wrap items-center gap-3">
+          <div className="mt-8 flex flex-wrap items-center justify-center gap-3 lg:justify-start">
             <a href="/app/" className={CTA_PRIMARY}>
               {t("landing.cta.openPlannerLong")}
             </a>
@@ -242,7 +242,7 @@ function Modules() {
       className="flex min-h-[100svh] scroll-mt-16 flex-col justify-center px-5 py-20 sm:px-8"
     >
       <div className="mx-auto w-full max-w-6xl">
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
           <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {t("landing.modules.title")}
           </h2>
@@ -271,7 +271,7 @@ function FeaturedCard({ module: m }: { module: Module }) {
   const { t } = useT();
   return (
     <article
-      className={`group grid items-center gap-5 overflow-hidden rounded-3xl border border-sprout-100 bg-surface p-6 transition-all duration-500 ${EASE} hover:border-sprout-200 hover:shadow-[0_24px_60px_-12px_rgba(22,101,52,0.18)]`}
+      className={`group grid items-center gap-5 overflow-hidden rounded-3xl border border-sprout-100 bg-surface p-6 text-center transition-all duration-500 lg:text-left ${EASE} hover:border-sprout-200 hover:shadow-[0_24px_60px_-12px_rgba(22,101,52,0.18)]`}
     >
       <div className="relative order-last flex justify-center lg:order-first">
         <div
@@ -287,7 +287,7 @@ function FeaturedCard({ module: m }: { module: Module }) {
       </div>
 
       <div>
-        <div className="flex flex-wrap items-center gap-3">
+        <div className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
           <h3 className="font-display text-2xl font-bold tracking-tight text-ink">
             Sprout {m.name}
           </h3>
@@ -298,7 +298,7 @@ function FeaturedCard({ module: m }: { module: Module }) {
         <p className="mt-3 text-lg font-semibold text-sprout-700">
           {t(`landing.module.${m.id}.blurb`)}
         </p>
-        <p className="mt-2 max-w-md text-pretty text-sm leading-relaxed text-ink-muted">
+        <p className="mx-auto mt-2 max-w-md text-pretty text-sm leading-relaxed text-ink-muted lg:mx-0">
           {t(`landing.module.${m.id}.detail`)}
         </p>
         <a
@@ -326,7 +326,7 @@ function Pricing() {
       className="flex min-h-[100svh] scroll-mt-16 flex-col justify-center px-5 py-20 sm:px-8"
     >
       <div className="mx-auto w-full max-w-6xl">
-        <div className="max-w-2xl">
+        <div className="mx-auto max-w-2xl text-center lg:mx-0 lg:text-left">
           <h2 className="text-balance font-display text-3xl font-bold tracking-tight text-ink sm:text-4xl">
             {t("landing.pricing.title")}
           </h2>
@@ -369,13 +369,13 @@ function PricingPanel({
 }) {
   return (
     <article
-      className={`rounded-3xl border p-6 ${
+      className={`rounded-3xl border p-6 text-center lg:text-left ${
         active
           ? "border-sprout-300 bg-sprout-50"
           : "border-sprout-100 bg-surface"
       }`}
     >
-      <div className="flex items-start justify-between gap-4">
+      <div className="flex flex-col items-center justify-between gap-4 lg:flex-row lg:items-start">
         <div>
           <h3 className="font-display text-2xl font-bold text-ink">{title}</h3>
           <p className="mt-2 text-4xl font-bold tabular-nums text-sprout-700">
@@ -393,10 +393,10 @@ function SoonCard({ module: m, index }: { module: Module; index: number }) {
   const { t } = useT();
   return (
     <li
-      className={`animate-rise group flex flex-col rounded-2xl border border-sprout-100 bg-surface p-6 transition-all duration-300 ${EASE} hover:-translate-y-1 hover:border-sprout-200 hover:shadow-[0_18px_40px_-8px_rgba(22,101,52,0.16)]`}
+      className={`animate-rise group flex flex-col items-center rounded-2xl border border-sprout-100 bg-surface p-6 text-center transition-all duration-300 lg:items-stretch lg:text-left ${EASE} hover:-translate-y-1 hover:border-sprout-200 hover:shadow-[0_18px_40px_-8px_rgba(22,101,52,0.16)]`}
       style={{ "--i": index + 2 } as React.CSSProperties}
     >
-      <div className="mb-4 flex items-start justify-between">
+      <div className="mb-4 flex w-full items-start justify-between">
         <img
           src={m.mascot}
           alt={`Sprout ${m.name}`}
@@ -413,7 +413,7 @@ function SoonCard({ module: m, index }: { module: Module; index: number }) {
       <p className="mt-1 text-pretty text-sm leading-relaxed text-ink-muted">
         {t(`landing.module.${m.id}.blurb`)}
       </p>
-      <div className="mt-auto flex items-center justify-between gap-2 pt-4">
+      <div className="mt-auto flex w-full items-center justify-center gap-2 pt-4 lg:justify-between">
         {m.eta && (
           <span className="text-xs font-semibold uppercase tracking-[0.06em] text-ink-subtle">
             {t(`landing.eta.${m.eta}`)}
@@ -442,7 +442,7 @@ function Support() {
       className="flex min-h-[100svh] scroll-mt-16 flex-col justify-center bg-sprout-50/60 px-5 py-20 sm:px-8"
     >
       <div className="mx-auto grid w-full max-w-6xl items-center gap-10 lg:grid-cols-[minmax(0,1fr)_22rem]">
-        <div>
+        <div className="mx-auto flex max-w-2xl flex-col items-center text-center lg:mx-0 lg:items-start lg:text-left">
           <p className="mb-3 inline-flex items-center gap-2 rounded-full bg-surface px-3 py-1 text-xs font-semibold uppercase tracking-[0.08em] text-sprout-700 ring-1 ring-inset ring-sprout-100">
             <HeartHandshake size={14} aria-hidden="true" />
             {t("landing.support.eyebrow")}
@@ -453,7 +453,7 @@ function Support() {
           <p className="mt-3 max-w-2xl text-pretty text-base leading-relaxed text-ink-muted">
             {t("landing.support.body")}
           </p>
-          <div className="mt-7 flex flex-wrap gap-3">
+          <div className="mt-7 flex flex-wrap justify-center gap-3 lg:justify-start">
             <a
               href={GITHUB_URL}
               target="_blank"
@@ -496,14 +496,14 @@ function Footer() {
   const { t } = useT();
   return (
     <footer className="border-t border-sprout-100 bg-surface">
-      <div className="mx-auto flex max-w-6xl flex-col gap-6 px-5 py-10 sm:flex-row sm:items-center sm:justify-between sm:px-8">
-        <div>
-          <Wordmark className="-ml-1" />
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-5 py-10 text-center lg:flex-row lg:items-center lg:justify-between lg:px-8 lg:text-left">
+        <div className="flex flex-col items-center lg:items-start">
+          <Wordmark className="lg:-ml-1" />
           <p className="mt-3 max-w-xs text-sm leading-relaxed text-ink-subtle">
             {t("landing.footer.tagline")}
           </p>
         </div>
-        <div className="flex flex-col gap-2 text-sm text-ink-muted sm:items-end">
+        <div className="flex flex-col items-center gap-2 text-sm text-ink-muted lg:items-end">
           <a
             href="/app/"
             className="group inline-flex min-h-[44px] items-center gap-1.5 font-semibold text-sprout-700 transition-colors hover:text-sprout-600"

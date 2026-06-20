@@ -35,16 +35,16 @@ export const MODULES: Module[] = [
   {
     id: "focus",
     name: "Focus",
-    status: "soon",
+    status: "live",
+    href: "/app/#focus",
     mascot: "/sprout-work.png",
-    eta: "later",
   },
   {
     id: "mood",
     name: "Mood",
-    status: "soon",
+    status: "live",
+    href: "/app/#mood",
     mascot: "/sprout-mood.png",
-    eta: "later",
   },
   {
     id: "together",
